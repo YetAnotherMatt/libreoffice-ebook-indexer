@@ -48,5 +48,6 @@ It is released under an MIT licence, so feel free to copy and modify it for your
   and if you save the resulting document in LibreOffice it will convert the style names, e.g. from 'Index entry' to 'Index_20_entry'.
 * If this behaviour changes in later versions of LibreOffice, you might need to open the .odt file as a zip archive and examine content.xml
   to see what format it stores style names in, and use the correct names in `EbookIndexer.properties`.
+* Additional implementation details available in the comments in EbookIndexer.java.
   
 

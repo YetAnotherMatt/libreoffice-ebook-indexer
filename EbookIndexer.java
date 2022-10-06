@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -6,6 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * A tool that extracts content.xml from an .odt zip archive and:
+ * - Replaces all `text:alphabetical-index-mark` and `text:alphabetical-index-mark-start` elements with `text:bookmark`
+ * - Removes all `text:alphabetical-index-mark-end` elements
+ * - Optionally removes all `text:soft-page-break` elements
+ * - Replaces a `text:p` element containing `[INDEX_HERE]` with a series of entries containing
+ *   a `text:p` element for each unique index entry, containing one `text:a` element for each bookmark for that entry.
+ */
 public class EbookIndexer {
 
     static final String INDEX_MARK_PREFIX = "<text:alphabetical-index-mark";
@@ -15,6 +24,9 @@ public class EbookIndexer {
 
     static final IndexProperties PROPERTIES = new IndexProperties();
 
+    /**
+     * Expects a single argument - the path to the .odt file to copy & modify.
+     */
     public static void main(String[] args) throws IOException {
         Path sourceFile = Path.of(args[0]);
         String sourceXml = readContentXmlFromOdtFile(sourceFile);
@@ -172,8 +184,8 @@ public class EbookIndexer {
 
         static Properties loadProperties() {
             Properties properties = new Properties();
-            try {
-                properties.load(Files.newInputStream(Path.of(EbookIndexer.class.getSimpleName() + ".properties")));
+            try (InputStream inputStream = Files.newInputStream(Path.of(EbookIndexer.class.getSimpleName() + ".properties"))) {
+                properties.load(inputStream);
                 return properties;
             } catch (IOException e) {
                 throw new RuntimeException(e);
