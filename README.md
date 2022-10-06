@@ -41,11 +41,11 @@ It is released under an MIT licence, so feel free to copy and modify it for your
 * This code was written to update a document created by LibreOffice 6.4.7.2. It should continue to work until the .odt format changes.
 * The .odt file is actually a zip archive, containing (amongst other files) `content.xml` which holds the textual content of the document.
   This tool modifies `content.xml`, and only that file.
-* Version 6.4.7.2 of LibreOffice converts style names when the document, 
+* Version 6.4.7.2 of LibreOffice converts style names when the document is saved, 
   for instance the name for a style called 'Index entry' becomes 'Index_20_entry' as seen in content.xml.
-* If you provide style names with spaces (such as 'Index entry') in `EbookIndexer.properties`, this tool uses those exact names when modifying
-  content.xml. Currently, LibreOffice seems happy to translate between 'Index entry' and 'Index_20_entry' - it applies the correct styles, 
-  and if you save the resulting document in LibreOffice it will convert the style names to replace spaces with '_20_'.
+* This tool uses the exact style names specified in `EbookIndexer.properties` when modifying content.xml.
+  Currently, LibreOffice seems happy to translate between 'Index entry' and 'Index_20_entry' - it applies the correct styles, 
+  and if you save the resulting document in LibreOffice it will convert the style names, e.g. from 'Index entry' to 'Index_20_entry'.
 * If this behaviour changes in later versions of LibreOffice, you might need to open the .odt file as a zip archive and examine content.xml
   to see what format it stores style names in, and use the correct names in `EbookIndexer.properties`.
   
