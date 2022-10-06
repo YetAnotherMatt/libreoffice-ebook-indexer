@@ -32,14 +32,14 @@ public class EbookIndexer {
         String sourceXml = readContentXmlFromOdtFile(sourceFile);
         Map<String, List<String>> bookmarks = new TreeMap<>(String::compareToIgnoreCase);
         String xml = replaceIndexMarksWithBookMarks(sourceXml, bookmarks);
-        String index = createIndex(bookmarks);
         if (PROPERTIES.removeSoftPageBreaks) {
             xml = xml.replace(SOFT_PAGE_BREAK, "");
         }
+        String index = createIndex(bookmarks);
+        xml = insertIndex(xml, index);
         Path outputFile = Path.of(args[0] + ".indexed.odt");
         Files.deleteIfExists(outputFile);
         Files.copy(sourceFile, outputFile);
-        xml = insertIndex(xml, index);
         writeContentXmlToOdtFile(outputFile, xml);
     }
 
